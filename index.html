@@ -86,6 +86,13 @@
     to{ opacity:1; transform:translateY(0) scale(1); }
   }
 
+  /* screens with long letters get their own scroll */
+  #screen-message, #screen-special{
+    overflow-y:auto;
+    padding-top:50px;
+    padding-bottom:50px;
+  }
+
   /* ---------- Screen 1: Tap to open ---------- */
   #screen-tap{ cursor:pointer; z-index:2; }
   .envelope{
@@ -134,9 +141,9 @@
    /* ---------- Landing ---------- */
   .landing-title{
     font-family:var(--font-display);
-    font-size:clamp(30px,9vw,58px);
+    font-size:clamp(26px,8vw,50px);
     font-weight:700;
-    line-height:1.15;
+    line-height:1.2;
     background:linear-gradient(90deg,var(--pink),var(--purple),var(--gold),var(--pink));
     background-size:250% auto;
     -webkit-background-clip:text;
@@ -204,7 +211,7 @@
     60%{ transform:scale(1.05) translateY(-6px); opacity:1; }
     100%{ transform:scale(1) translateY(0); }
   }
-  svg#cake{ width:min(64vw,250px); height:auto; }
+  svg#cake{ width:min(60vw,235px); height:auto; }
   .flame{ transform-origin:50% 100%; animation:flicker 0.9s ease-in-out infinite; }
   @keyframes flicker{
     0%,100%{ transform:scale(1) rotate(-2deg);}
@@ -214,8 +221,14 @@
   .cake-title{
     font-family:var(--font-display);
     font-size:clamp(20px,5.5vw,28px);
-    margin-top:22px;
+    margin-top:18px;
     color:var(--ink);
+  }
+  .cake-subtitle{
+    font-family:var(--font-display);
+    font-size:clamp(15px,4.2vw,19px);
+    color:var(--pink);
+    margin-top:8px;
   }
   .cake-hint{ font-size:13px; color:var(--ink-soft); margin-top:6px; }
 
@@ -274,16 +287,12 @@
   }
   .pop-msg{
     font-family:var(--font-display);
-    font-size:clamp(16px,4.6vw,20px);
+    font-size:clamp(15px,4.2vw,19px);
     color:var(--pink);
     min-height:34px;
     margin-top:18px;
-    z-index:2;
-  }
-  .balloon-progress{
-    font-size:13px;
-    color:var(--ink-soft);
-    margin-top:4px;
+    max-width:340px;
+    line-height:1.4;
     z-index:2;
   }
 
@@ -291,19 +300,29 @@
   .msg-card{ max-width:460px; z-index:2; }
   .msg-title{
     font-family:var(--font-display);
-    font-size:clamp(24px,6.4vw,36px);
+    font-size:clamp(20px,5.6vw,30px);
     color:var(--pink);
     opacity:0;
     animation:riseIn 0.9s ease forwards 0.1s;
   }
+  .msg-subtitle{
+    font-family:var(--font-display);
+    font-size:clamp(14px,4vw,17px);
+    color:var(--purple);
+    margin-top:8px;
+    opacity:0;
+    animation:riseIn 0.9s ease forwards 0.25s;
+  }
   .msg-body{
     margin-top:16px;
-    font-size:clamp(15px,4vw,17px);
-    line-height:1.65;
+    font-size:clamp(14px,3.8vw,16px);
+    line-height:1.7;
     color:var(--ink);
+    text-align:left;
     opacity:0;
     animation:riseIn 0.9s ease forwards 0.4s;
   }
+  .msg-body p{ margin-bottom:14px; }
   .photo-placeholder{
     margin-top:24px;
     width:100%;
@@ -327,53 +346,58 @@
     background:rgba(255,255,255,0.4);
   }
 
-  /* ---------- Extras ---------- */
-  .extras-title{
-    font-family:var(--font-display);
-    font-size:clamp(22px,5.8vw,30px);
-    color:var(--mint);
-    z-index:2;
-  }
-  .surprise-box{
-    margin-top:22px;
-    min-height:60px;
-    max-width:400px;
-    font-size:clamp(14px,3.8vw,16px);
-    color:var(--ink);
+  /* ---------- Teddy bear hug/kiss scene ---------- */
+  .teddy-scene{
+    position:relative;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:0 8px;
+    gap:2px;
+    font-size:clamp(38px,10vw,56px);
+    height:70px;
+    margin:6px 0 4px;
     z-index:2;
   }
-  .reasons-wrap{ margin-top:26px; max-width:420px; width:100%; z-index:2; }
-  .reason-item{
-    background:rgba(255,255,255,0.55);
-    border-radius:14px;
-    padding:14px 18px;
-    margin-bottom:10px;
-    font-size:14px;
-    text-align:left;
-    color:var(--ink);
-    opacity:0;
-    transform:translateX(-12px);
-    transition:opacity 0.5s ease, transform 0.5s ease;
+  .teddy-left{ animation:teddyLeft 3s ease-in-out infinite; }
+  .teddy-right{ animation:teddyRight 3s ease-in-out infinite; }
+  @keyframes teddyLeft{
+    0%,20%{ transform:translateX(0) rotate(0deg); }
+    50%,80%{ transform:translateX(12px) rotate(-6deg); }
+    100%{ transform:translateX(0) rotate(0deg); }
   }
-  .reason-item.shown{ opacity:1; transform:translateX(0); }
+  @keyframes teddyRight{
+    0%,20%{ transform:translateX(0) rotate(0deg); }
+    50%,80%{ transform:translateX(-12px) rotate(6deg); }
+    100%{ transform:translateX(0) rotate(0deg); }
+  }
+  .teddy-heart{
+    position:absolute;
+    top:-6px;
+    font-size:clamp(16px,4.5vw,22px);
+    opacity:0;
+    animation:teddyHeart 3s ease-in-out infinite;
+  }
+  @keyframes teddyHeart{
+    0%,52%{ opacity:0; transform:translateY(0) scale(0.5); }
+    65%,85%{ opacity:1; transform:translateY(-16px) scale(1); }
+    100%{ opacity:0; transform:translateY(-26px) scale(0.6); }
+  }
 
   /* ---------- Special message ---------- */
   .special-card{ max-width:440px; z-index:2; }
   .special-title{
     font-family:var(--font-display);
-    font-size:clamp(24px,6.4vw,34px);
+    font-size:clamp(21px,5.8vw,30px);
     color:var(--purple);
   }
   .special-body{
-    margin-top:16px;
-    font-size:clamp(15px,4vw,17px);
-    line-height:1.65;
+    margin-top:14px;
+    font-size:clamp(14px,3.8vw,16px);
+    line-height:1.7;
     color:var(--ink);
+    text-align:left;
   }
+  .special-body p{ margin-bottom:14px; }
 
   /* ---------- Finale (fireworks) ---------- */
   #screen-finale{
@@ -382,7 +406,8 @@
   #fireworks-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
   .finale-title{
     font-family:var(--font-display);
-    font-size:clamp(30px,8.5vw,52px);
+    font-size:clamp(24px,7vw,42px);
+    line-height:1.2;
     background:linear-gradient(90deg,var(--gold),var(--peach),var(--white),var(--gold));
     background-size:250% auto;
     -webkit-background-clip:text;
@@ -391,13 +416,13 @@
     z-index:2;
     animation:shimmerText 4s linear infinite;
   }
-  .finale-sub{ margin-top:12px; font-size:clamp(14px,3.8vw,16px); color:#ffe3ee; z-index:2; }
+  .finale-sub{ margin-top:12px; font-size:clamp(14px,3.8vw,16px); color:#ffe3ee; max-width:420px; z-index:2; }
   #screen-finale .btn{ z-index:2; }
 
   /* ---------- Party ending ---------- */
   .party-title{
     font-family:var(--font-display);
-    font-size:clamp(28px,8vw,46px);
+    font-size:clamp(22px,6.4vw,36px);
     color:var(--pink);
     z-index:2;
   }
@@ -451,7 +476,7 @@
   <div class="screen active" id="screen-tap">
     <div class="envelope">🎁</div>
     <div class="tap-title">Hello Anisha Amar Chotu Bacha </div>
-    <div class ="tap-title">Tor Jonno Ekta Chotu sa Jinis </div>
+    <div class="tap-title">Tor Jonno Ekta Chotu sa Jinis </div>
     <div class="tap-sub">Tap Kor and Aage Chol </div>
   </div>
 
@@ -471,7 +496,7 @@
   <!-- Cake -->
   <div class="screen" id="screen-cake">
     <div class="cake-wrap">
-      <svg id="cake" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+      <svg id="cake" viewBox="0 -14 200 244" xmlns="http://www.w3.org/2000/svg">
         <!-- candle -->
         <rect x="94" y="16" width="12" height="32" rx="3" fill="#ffe8a3"/>
         <rect x="94" y="16" width="12" height="6" rx="3" fill="#fff3c4"/>
@@ -500,7 +525,7 @@
         <ellipse cx="100" cy="166" rx="92" ry="11" fill="#ffe3ee"/>
       </svg>
       <div class="cake-title">Make a wish, Anisha 🕯️</div>
-      <div class="cake-hint">tap the candle to blow it out</div>
+      <div class="cake-subtitle">Amar songe Biye 🥰😘🫢</div>
       <button class="btn" id="blow-btn" onclick="blowCandle()">Blow the Candle 🕯️</button>
     </div>
   </div>
@@ -508,55 +533,62 @@
   <!-- Balloons -->
   <div class="screen" id="screen-balloons">
     <div class="cake-title" style="margin-bottom:6px;">Pop every balloon 🎈</div>
-    <div class="balloon-progress" id="balloon-progress">0 / 5 popped</div>
     <div class="balloon-field" id="balloon-field"></div>
     <div class="pop-msg" id="pop-msg"></div>
-    <button class="btn" id="balloon-next-btn" style="display:none;" onclick="goTo('screen-message')">Next →</button>
+    <button class="btn" id="balloon-next-btn" style="display:none;" onclick="goTo('screen-message')">Aage badte chaas toh amake tap kor →</button>
   </div>
 
   <!-- Message + Photos -->
   <div class="screen" id="screen-message">
     <div class="msg-card">
-      <div class="msg-title">For you, Anisha 💌</div>
+      <div class="msg-title">For Your Anisha 💌</div>
+      <div class="msg-subtitle">Ansha podhu amar cutu aita sudhu tor jonno ekta chotu sa msg sirf tor jonno</div>
       <div class="msg-body">
-        Another year has passed, and somehow you've only gotten more wonderful.
-        Here's to the laughter you bring into every room, the kindness you never
-        run out of, and every good thing that's still coming your way.
+        <p>Soo my dear Anisha Das podhe sudhu amar bassss , kamon achis amar puchku sonaa , I hope bhalo achis amar bhalobasha they , soo ajj tomar Birthday ache I hope ajj ka din tumara ache se jaaye enjoy koro amon he tomar songe tomar her ekta Birthday te tor songe thakbo mast tor birthday celebrate korbo moja korbo , Happy Birthday amar podhuuuuuuuuu ❤️, loves you</p>
+        <p>Soo uk tui amar jeeboner sob se bhalo gift achis legit sabse acha gift achis amar jeebone like your are my gem 🪎💎 janis tor songe na thakte onek bhalo laage uk even though amar arr tor kohraa bhi holee naa ki tor songe vaale thaki kano ki na tor oi silence mai bhi bahut kuch raheta hai, uff amar podhu tune kya aisa jaadu kiya mere pe jisse raha nahi jata tere bina amar puchku sona .</p>
+        <p>So tui janis agar tere se baat bhi nahj hua naa ek din kamon kamon hoye like legit suna suna dry dry laage dinta tor songe kotha naa bole upper se jodin tor songe kotha share naa kori like dinka update jodin share naa kori sala aisa lagta hai apne dusre dil ko kych bataya he nahi like janis tor songe aasar por amon lagte laage that tui amar he ekta body part dil ka part jisse kuch nahi bataya toh acha nahi lagta but yrr sothi tor songe thakte toke chotkate koto moja ase amar podhuuuuuuuuu, and haa ider jitna likhu utna kum haj like jagh kum par jaygi ider toh but yaa tui amar jeeboner sabse acha manus amar handsome podhuuuuuuuuu janish tui amar kache words kom pode jaache tor jono ki tui itna bhalo achis legit tor birthday theke besi ami excited achi ki amar podhu ka birthday or songe khabi ghurbo gift deebo and all like I am waiting for it and now the wait is over like tor birthday amon lagche ki amar he birthday ache amon lagche amake . So happy Birthday handsome hunk amar .</p>
+        <p>Loves you podhuuuuuuuuu ❤️🥳🥳. Please amake chede kothai jaas naa kuch bhi ho jaye hum solve kar lenge baitke baat karke bht chhodke jaas naa yrr podhu kabhi bhi and sorry ami jaa korechi abb tak uske kiye maaf koredis please 🥺😭.</p>
+        <p>But yaa ami toke onek bhalo bashi onek besi bhalo bashi amar podhuuuuuuuuu ❤️♥️ Lovesssssssss youuuuuu anishaaaaa infinite</p>
       </div>
       <div class="photo-placeholder">
   <img src="1.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
   <img src="2.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
   <img src="3.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
 </div>
-      <button class="btn" onclick="goTo('screen-special')">Next →</button>
+      <button class="btn" onclick="goTo('screen-special')">Aage badte chaas toh amake tap kor →</button>
     </div>
   </div>
 
   <!-- Special closing message -->
   <div class="screen" id="screen-special">
     <div class="special-card">
-      <div class="special-title">One last thing, Anisha ✨</div>
+      <div class="special-title">One Last Thing<br/>Tor Jonno ✨</div>
       <div class="special-body">
-        Whatever this year brings, I hope it brings you more of the things
-        that make you feel like you — and a little extra magic besides.
-        Happy birthday. Let's celebrate! 🎂
+        <p>Kobe asbi amar ghore amar lokhi bene 🪙🪙 podhu , cholee aaye amara mast ghubo khaabo daabo monaa korbo enjy korbo and ami toke akhon theke he nemonia kore dichi for my birthday iss maar aaro enjoy khabi daani tor songe phir ghurbo alag and podhuu , tui onek bhalo achis I am proud of you Anisha Das, legit tui onek kichu korbi jeebone mai tui tor suar choda dada theke besi kaaj korbo mast tor maa baap ke proud feel korabi tuu ooder and amake ke bhi .neejer khayal rakha kar podhu loves you 💖💖</p>
+        <p>And then partyyyy korboo amara . Ghurbo phirbo khabo daaabo enjoy korbo , and I Love you podhuuuuuuuuu ❤️♥️🥺.</p>
+        <p>And thank you number dene ke kiye onek kaaje asche number amar Heheheheh 🥺😘😘😘😘😘 loves you handle baazzz ki arr bolbo legit ami wait korte parchina yrr jaldi aaaaa jaaa. Birthday teraaaa kitna aste aste asche tor birthday yrrr 😭😭🤭 I thakte parchina amii arrr sala kitna muskil se pait mai baat dabake rakhi hai yrr jaldi aaye birthday loves you podhuuuuuuuuu ❤️</p>
       </div>
-      <button class="btn" onclick="goTo('screen-finale')">Let it rip 🎆</button>
+      <div class="teddy-scene">
+        <span class="teddy-heart">💕</span>
+        <span class="teddy-left">🧸</span>
+        <span class="teddy-right">🧸</span>
+      </div>
+      <button class="btn" onclick="goTo('screen-finale')">Let's do a party in Central podhu 🎆</button>
     </div>
   </div>
 
   <!-- Fireworks finale -->
   <div class="screen" id="screen-finale">
     <canvas id="fireworks-canvas"></canvas>
-    <div class="finale-title">Happy Birthday, Anisha!</div>
-    <div class="finale-sub">Here's to a wonderful year ahead ✨</div>
-    <button class="btn" onclick="goTo('screen-party')">Next →</button>
+    <div class="finale-title">Happy Birthday Podhuuuuuuuuu<br/>Amar Cutu sona ❤️🥰</div>
+    <div class="finale-sub">Hum dono aur bhi sundar saal ek saath nikalenge, aise hi tera haseen birthday celebrate karenge ✨</div>
+    <button class="btn" onclick="goTo('screen-party')">Aage badte chaas toh amake tap kor →</button>
   </div>
 
   <!-- Party ending -->
   <div class="screen" id="screen-party">
-    <div class="party-title">Now let's party! 🥳</div>
-    <div class="party-sub">Go show Anisha the best birthday ever.</div>
+    <div class="party-title">Chalo Central jaai party korte, mast khaabo daabo ghurbo toke chotkabo 🥳</div>
+    <div class="party-sub">Chicken Crispy khabo 😂</div>
     <button class="btn secondary" style="margin-top:30px;" onclick="restartSite()">Play it again ↺</button>
   </div>
 
@@ -571,7 +603,7 @@
     if(id === 'screen-balloons') initBalloons();
     if(id === 'screen-landing'){
       burstConfetti(55);
-      typeWriter(document.getElementById('landing-title'), "Happy Birthday,\nAnisha! 🎉", 55);
+      typeWriter(document.getElementById('landing-title'), "Happy Birthday Podhuuuuuuuuu\nAmar Cutu sona ❤️🥰", 45);
     }
   }
 
@@ -604,7 +636,6 @@
     document.getElementById('flame').classList.remove('out');
     document.getElementById('blow-btn').textContent = 'Blow the Candle 🕯️';
     document.getElementById('pop-msg').textContent = '';
-    document.getElementById('balloon-progress').textContent = '0 / 5 popped';
     document.getElementById('balloon-next-btn').style.display = 'none';
     document.getElementById('balloon-field').innerHTML = '';
     balloonsInit = false;
@@ -663,11 +694,11 @@
   /* ---------------- Balloons (fixed, 5 total) ---------------- */
   const balloonColors = ['#ff6f9c','#ffb100','#4fd8b8','#9b6bdb','#ffb997'];
   const balloonMsgs = [
-    "You light up every room ✨",
-    "Kindness looks good on you 💛",
-    "Here's to more laughs together 😄",
-    "You're only getting better with time 🌱",
-    "So grateful to have you around 🤍"
+    "Podhuuu Thank you for comming in my Life🫂",
+    "Tui Onek Handsome achis",
+    "Tere sang her ek pal yaadgar hoo jata hai , Even though it's good or bad but still I feel so good with you",
+    "Tor Number onek kaaje asbe",
+    "Uk tor amake ki bhalo laage onek tor gaal chotkaana toke gulu gulu kora onek bhalo laage amon kore chotkiye khey neebo toke amar podhuuuuuuuuu ❤️"
   ];
   let poppedCount = 0;
   let balloonsInit = false;
@@ -697,8 +728,7 @@
       b.classList.add('popped');
       poppedCount++;
       document.getElementById('pop-msg').textContent = b.dataset.msg;
-      document.getElementById('balloon-progress').textContent = poppedCount + ' / 5 popped';
-      burstConfetti(14);
+      burstConfetti(22);
       if(poppedCount === balloonColors.length){
         document.getElementById('balloon-next-btn').style.display = 'inline-block';
       }
