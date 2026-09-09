@@ -89,8 +89,10 @@
   /* screens with long letters get their own scroll */
   #screen-message, #screen-special{
     overflow-y:auto;
-    padding-top:50px;
-    padding-bottom:50px;
+    -webkit-overflow-scrolling:touch;
+    justify-content:flex-start;
+    padding-top:40px;
+    padding-bottom:60px;
   }
 
   /* ---------- Screen 1: Tap to open ---------- */
